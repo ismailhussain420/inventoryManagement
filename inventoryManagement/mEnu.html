@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Responsive Navigation with HTML, CSS, JavaScript</title> 
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        body {
+            margin: 0px;
+            padding: 0px;
+            font-size: 13px;
+            font-family: "Arial";
+        }
+        .myNav {
+            background-color: #222;
+            color: #fff;
+            display: flex;
+            min-height: 50px;
+            position: relative; /* Added for dropdown positioning */
+        }
+        .toggle {
+            display: none; /* Hidden by default; show on mobile */
+        }
+        .myNav ul {
+            margin: 0;
+            padding: 0;
+        }
+        .myNav ul li {
+            list-style: none;
+        }
+        .myNav > ul > li {
+            float: left;
+            position: relative;
+        }
+        .myNav > ul > li > a {
+            display: block;
+            padding: 15px 20px;
+            color: #fff;
+            text-decoration: none;
+        }
+        .dd-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 200px;
+            background-color: #fff;
+            border: 1px solid #f1f1f1;
+            transition: 0.5s;
+            display: none; /* Hide by default */
+        }
+        .dd-menu li {
+            display: block;
+            padding: 15px 15px;
+        }
+        .dd-menu li a {
+            text-decoration: none;
+            color: #222;
+            border-bottom: 1px solid #f1f1f1;
+        }
+        .dd-menu li a:last-child {
+            border-bottom: 0px;
+        }
+        .dd-menu li a:hover {
+            background-color: #f1f1f1;
+        }
+        .show {
+            display: block; /* Class to show the menu */
+        }
+    </style>
+</head>
+<body>
+    <!-- RESPONSIVE NAVIGATION MENU -->
+    <nav class="myNav">
+        <div class="toggle"> 
+            <i class="fa fa-bars"></i> 
+        </div>
+        <ul>
+            <li>
+                <a class="dd-btn" href="#">Home <i class="fa fa-angle-down"></i></a>    
+                <ul class="dd-menu"> 
+                    <li><a href="#">Home Style 01</a></li>
+                    <li><a href="#">Home Style 02</a></li>
+                    <li><a href="#">Home Style 03</a></li>
+                    <li><a href="#">Home Style 04</a></li>
+                </ul>     
+            </li>
+            <li><a href="#">About</a></li> 
+            <li><a href="#">Service</a></li> 
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Contact</a></li>
+            <li>
+                <a class="dd-btn" href="#">Dropdown 2 <i class="fa fa-angle-down"></i></a>
+                <ul class="dd-menu">
+                    <li><a href="#">About Style 01</a></li> 
+                    <li><a href="#">About Style 02</a></li>
+                    <li><a href="#">About Style 03</a></li> 
+                    <li><a href="#">About Style 04</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+
+    <script>
+        var nav = document.querySelector(".myNav");
+        var toggle = document.querySelector('.toggle');
+        var btn = document.getElementsByClassName('dd-btn');
+        var menu = document.getElementsByClassName('dd-menu');
+
+        function reset() {
+            for (var i = 0; i < menu.length; i++) {
+                menu[i].classList.remove("show");    
+            }
+        }
+
+        for (let a = 0; a < btn.length; a++) {
+            btn[a].addEventListener("mouseenter", function() {
+                reset(); // Reset other menus
+                menu[a].classList.add("show"); // Show current menu
+            });
+
+            btn[a].addEventListener("mouseleave", function() {
+                menu[a].classList.remove("show"); // Hide current menu
+            });
+
+            
+            btn[a].addEventListener("click", function(event) {         
+                menu[a].classList.toggle("show"); // Toggle current menu
+            });
+        }
+    </script> 
+</body>
+</html>

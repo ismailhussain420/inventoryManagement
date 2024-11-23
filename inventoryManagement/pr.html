@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.inventory {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 1200px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+img {
+    max-width: 100px;
+    height: auto;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+input, select, button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="file"] {
+    padding: 0;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+@media (max-width: 768px) {
+    table {
+        font-size: 14px;
+    }
+
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    input, select, button {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="inventory">
+        <h1>Inventory Management</h1>
+        <table id="inventoryTable">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="inventoryList"></tbody>
+        </table>
+        <div class="controls">
+            <input type="text" id="productName" placeholder="Product Name">
+            <input type="number" id="productStock" placeholder="Stock" min="0">
+            <select id="productStatus">
+                <option value="In Stock">In Stock</option>
+                <option value="Out of Stock">Out of Stock</option>
+            </select>
+            <input type="file" id="productImage" accept="image/*">
+            <button onclick="addProduct()">Add Product</button>
+        </div>
+    </div>
+    <script>
+        let inventory = [];
+
+function addProduct() {
+    let productName = document.getElementById("productName").value;
+    let productStock = parseInt(document.getElementById("productStock").value);
+    let productStatus = document.getElementById("productStatus").value;
+    let img = document.getElementById("productImage").files[0];
+
+    let createImgUrl = "";
+    if (img) {
+        createImgUrl = URL.createObjectURL(img);
+    }
+
+    function arrayToObj() {
+        const obj = {
+            name: productName,
+            stock: productStock,
+            status: productStock > 0 ? "In stock" : "Out of stock",
+            img: createImgUrl
+        };
+
+        inventory.push(obj);
+        updateList();
+        
+        // Reset form inputs
+        document.getElementById("productName").value = "";
+        document.getElementById("productStock").value = "";
+        document.getElementById("productStatus").value = "In stock";
+        document.getElementById("productImage").value = ""; // Corrected file input reset
+    }
+
+    arrayToObj();
+}
+
+function updateList() {
+    const inventoryList = document.getElementById("inventoryList");
+    inventoryList.innerHTML = ""; // Clear the existing list
+    inventory.forEach((obj, index) => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${obj.name}</td>
+            <td>${obj.stock}</td>
+            <td>${obj.status}</td>
+            <td><img src="${obj.img}" width="50"/></td>
+            <td><button onclick="update(${index})">Update</button>
+                <button onclick="deleteInvent()">Delete</button></td>
+        `;
+        inventoryList.appendChild(tr);
+    });
+}
+
+function update(index) {
+    // Prompt for a new stock value
+    const stockValue = prompt("Edit Your Stock Number", inventory[index].stock);
+    const nwValue = parseInt(stockValue, 10);
+
+    if (!isNaN(nwValue) && nwValue >= 0) {
+        // Update the stock and status
+        inventory[index].stock = nwValue;
+        inventory[index].status = nwValue > 0 ? "In stock" : "Out of stock";
+        updateList(); // Re-render the updated list
+    } else {
+        alert("Enter a valid stock number");
+    }
+}
+function deleteInvent(index){
+
+    if(confirm("are u sure to dlt:")){
+        inventory.splice(index,1);
+        updateList();
+
+
+    }
+    
+
+}
+
+    </script>
+    </body>
+    </html>

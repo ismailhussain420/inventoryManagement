@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Navigation Menu</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+   <style>
+    .myNav {
+        background-color: #222;
+        overflow: hidden; /* This clears the floats */
+        padding:10px
+    }
+
+    .myNav ul {
+        padding: 0;
+        margin: 0;
+    }
+
+    .myNav ul li {
+        list-style: none;
+    }
+
+    .myNav ul li a {
+        text-decoration: none;
+        color: #f1f1f1;
+        display: flex;
+        padding:0px 15px;
+        min-height: 50px;
+      
+    }
+
+    .myNav > ul > li {
+        float: left;
+    }
+    .dd-menu{
+        position:absolute;
+        top:100%;
+        left:0px;
+        width:200px;
+        /* background-color: aliceblue; */
+        border:1px solid gray;
+    }
+    .dd-menu li {
+        display:block;
+        padding:15px 15px
+
+    }
+    .myNav ul li:hover .dd-menu {
+        display: block;
+    }
+    /* Submenu styling */
+    /* .myNav ul .dd-menu {
+        display: none;
+        position: absolute;
+        background-color: #444;
+        padding: 10px;
+    }
+
+     */
+
+   </style>
+</head>
+<body>
+
+    <nav class="myNav">
+        <ul>
+            <li><a class="dd-btn" href="#">Home<i class="fa fa-angle-down"></i></a>
+                <ul class="dd-menu">
+                    <li><a href="#">Home 01</a></li>
+                    <li><a href="#">Home 02</a></li>
+                    <li><a href="#">Home 03</a></li>
+                    <li><a href="#">Home 04</a></li>
+                </ul>
+            </li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+            <li><a href="#">Support</a></li>
+
+            <li><a class="dd-btn" href="#">Services <i class="fa fa-angle-down"></i></a>
+                <ul class="dd-menu">
+                    <li><a href="#">Service 01</a></li>
+                    <li><a href="#">Service 02</a></li>
+                    <li><a href="#">Service 03</a></li>
+                    <li><a href="#">Service 04</a></li>
+                </ul>
+            </li>
+        </ul>
+    </nav>
+    
+
+    <script>
+        var btn = document.getElementsByClassName("dd-btn");
+        var menu = document.getElementsByClassName("dd-menu");
+      
+
+         function reset(){
+            for(var i=0;i<menu.length;i++){
+                menu[i].classList.add("hide");
+            }  
+         }
+         reset();
+
+         for(let a =0 ; a<btn.length;a++){
+            btn[a].addEventListener("click",function(){
+                reset();
+                menu[i].classList.remove("hide");
+            })
+         }
+
+
+
+
+         
+
+    </script>
+</body>
+</html>

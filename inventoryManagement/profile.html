@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+  
+
+<input type="file" id="img">
+<div id="rslt"> </div>
+ 
+    <script>
+
+
+     document.getElementById("img").addEventListener("change",wrk);
+
+function wrk(){
+
+    let img = document.getElementById("img").files[0];
+ 
+    let imgUrl = "";
+    if(img){
+        imgUrl =URL.createObjectURL(img);
+    }
+    uprslt(imgUrl);
+
+}
+function uprslt(imgUrl){ 
+    let rslt = document.getElementById("rslt");
+    rslt.innerHTML ="";
+    let imgs = document.createElement("img");
+    imgs.src=imgUrl;
+    imgs.width="100";
+
+    rslt.appendChild(imgs);
+
+}
+uprslt();
+
+
+
+
+
+    </script>
+  
+
+    
+</body>
+</html>

@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Reset default browser styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.inventory {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 1200px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+th {
+    background-color: #4CAF50;
+    color: #fff;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+img {
+    max-width: 100px;
+    height: auto;
+}
+
+.controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+input, select, button {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+input[type="file"] {
+    padding: 0;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+@media (max-width: 768px) {
+    table {
+        font-size: 14px;
+    }
+
+    .controls {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    input, select, button {
+        width: 100%;
+    }
+}
+
+    </style>
+</head>
+<body>
+    <div class="inventory">
+        <h1>Inventory Management</h1>
+        <table id="inventoryTable">
+            <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Stock</th>
+                    <th>Status</th>
+                    <th>Image</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="inventoryList"></tbody>
+        </table>
+        <div class="controls">
+            <input type="text" id="productName" placeholder="Product Name">
+            <input type="number" id="productStock" placeholder="Stock" min="0">
+            <select id="productStatus">
+                <option value="In Stock">In Stock</option>
+                <option value="Out of Stock">Out of Stock</option>
+            </select>
+            <input type="file" id="productImage" accept="image/*">
+            <button onclick="addProduct()">Add Product</button>
+        </div>
+    </div>
+    <script>
+//         let inventory = []; // Array to store inventory items
+
+//     function addProduct() {
+//     const productName = document.getElementById("productName").value.trim();
+//     const productStock = parseInt(document.getElementById("productStock").value.trim(), 10);
+//     const productStatus = document.getElementById("productStatus").value;
+//     const productImage = document.getElementById("productImage").files[0];
+
+//     // Read the image file and convert it to a data URL
+//     let imageURL = "";
+//     if (productImage) {
+//     // Use FileReader to read the image and convert it into a data URL in one line
+//     imageURL = URL.createObjectURL(productImage);
+// }
+
+
+// function addProductToInventory() {
+//     // Create a product object
+//     const product = {
+//         name: productName,
+//         stock: productStock,
+//         status: productStock > 0 ? "In Stock" : "Out of Stock",
+//         imageURL: imageURL
+//     };
+//         // Add product to the inventory array
+//         inventory.push(product);
+
+//         // Update the inventory display
+//         updateInventoryList();
+
+//         // Clear input fields
+//         document.getElementById("productName").value = "";
+//         document.getElementById("productStock").value = "";
+//         document.getElementById("productStatus").value = "In Stock";
+//         document.getElementById("productImage").value = ""; // Clear file input
+//     }
+//     addProductToInventory();
+
+
+// function updateInventoryList() {
+//     const inventoryList = document.getElementById("inventoryList");
+//     inventoryList.innerHTML = ""; // Clear the list before updating
+
+//     inventory.forEach((product, index) => {
+//         // Create elements for each product row
+//         const row = document.createElement("tr");
+
+//         row.innerHTML = `
+//             <td>${product.name}</td>
+//             <td>${product.stock}</td>
+//             <td>${product.status}</td>
+//             <td><img src="${product.imageURL}" alt="${product.name}"></td>
+//             <td>
+//                 <button onclick="updateStock(${index})">Update Stock</button>
+//                 <button onclick="removeProduct(${index})">Remove</button>
+//             </td>
+//         `;
+
+//         // Append row to the inventory list
+//         inventoryList.appendChild(row);
+//     });
+// }
+
+// function updateStock(index) {
+//     const newStock = prompt("Enter new stock amount:", inventory[index].stock);
+//     const newStockValue = parseInt(newStock, 10);
+
+//     if (!isNaN(newStockValue) && newStockValue >= 0) {
+//         inventory[index].stock = newStockValue;
+//         // Update the status based on stock level
+//         inventory[index].status = newStockValue > 0 ? "In Stock" : "Out of Stock";
+//         updateInventoryList();
+//     } else {
+//         alert("Invalid stock amount.");
+//     }
+// }
+
+// function removeProduct(index) {
+//     if (confirm("Are you sure you want to remove this product?")) {
+//         inventory.splice(index, 1); // Remove product from the array
+//         updateInventoryList(); // Update the display
+//     }
+// }
+
+// let allItems = [];
+
+// function addProduct() {
+//     let productName = document.getElementById("productName").value;
+//     let number = parseInt(document.getElementById("productStock").value, 10);
+//     let productImage = document.getElementById("productImage").files[0];
+//     let imgUrl = "";
+
+//     if (productImage) {
+//         imgUrl = URL.createObjectURL(productImage);
+//     }
+
+    // Add product to inventory
+//     function addProductToInventory() {
+//         const productObject = {
+//             name: productName,
+//             stock: number,
+//             status: number > 0 ? "In Stock" : "Out of Stock", // Use 'number' instead of 'stock'
+//             image: imgUrl
+//         };
+
+//         allItems.push(productObject);
+//         updateInventoryList(); // Update the display after adding a new product
+//     }
+
+//     addProductToInventory();
+// }
+
+// function updateInventoryList() {
+//     const inventoryList = document.getElementById("inventoryList");
+//     inventoryList.innerHTML = ""; // Clear the list before updating
+
+//     // Iterate over allItems array
+//     allItems.forEach((productObject, index) => {
+//         const tr = document.createElement("tr");
+//         tr.innerHTML = `
+//             <td>${productObject.name}</td>
+//             <td>${productObject.stock}</td>
+//             <td>${productObject.status}</td>
+//             <td><img src="${productObject.image}" alt="${productObject.name}" style="width: 50px; height: 50px;"></td>
+//             <td><button onclick="updateStock(${index})">Update</button></td>`;
+
+//         inventoryList.appendChild(tr);
+//     });
+// }
+
+
+// let inventory = [];
+// function addProduct() {
+//     let productName = document.getElementById("productName").value;
+//     let productStock = parseInt(document.getElementById("productStock").value);
+//     let productStatus = document.getElementById("productStatus").value;
+//     let img = document.getElementById("productImage").files[0];
+//     let imgUrl = "";
+//     if (img) {
+//         imgUrl = URL.createObjectURL(img);
+//     }
+
+//     function addInventory() {
+//         const invObj = {
+//             name: productName,
+//             stock: productStock,
+//             status: productStock > 0 ? "In Stock" : "Out of Stock",
+//             invtimg: imgUrl
+//         };
+//         inventory.push(invObj);
+//         updateInventoryList();
+//         document.getElementById("productName").value = "";
+//         document.getElementById("productStock").value = "";
+//         document.getElementById("productStatus").value = "In Stock";
+//         document.getElementById("productImage").value = ""; // Clear file input
+//     }
+
+//     addInventory();
+// }
+
+
+
+
+let newInventory = [];
+
+function addProduct() {
+    let nwproductName = document.getElementById("productName").value;
+    let nwproductStock = parseInt(document.getElementById("productStock").value, 10);
+    let nwproductStatus = document.getElementById("productStatus").value;
+    let nwimg = document.getElementById("productImage").files[0];
+    let nwimgUrl = "";
+    
+    if (nwimg) {
+        nwimgUrl = URL.createObjectURL(nwimg);
+    }
+
+    function nwaddInventory() {
+        const nwobj = {
+            nwname: nwproductName,
+            nwStock: nwproductStock,
+            nwStatus: nwproductStock > 0 ? "In stock" : "Out of stock",
+            imgUrl: nwimgUrl // Using the image URL
+        };
+        newInventory.push(nwobj);
+        nwupdateInventoryList();
+    }
+    
+    nwaddInventory();
+}
+
+function nwupdateInventoryList() {
+    const nwinventoryList = document.getElementById("inventoryList");
+    nwinventoryList.innerHTML = "";
+
+    newInventory.forEach(nwobj => {
+        const tr = document.createElement("tr");
+        tr.innerHTML = `
+            <td>${nwobj.nwname}</td>
+            <td>${nwobj.nwStock}</td>
+            <td>${nwobj.nwStatus}</td>
+            <td><img src="${nwobj.imgUrl}" alt="${nwobj.nwname}" width="50" height="50"></td>
+        `;
+        nwinventoryList.appendChild(tr);
+    });
+}
+
+
+
+
+// function updateInventoryList() {
+//     const inventoryList = document.getElementById("inventoryList");
+//     inventoryList.innerHTML = "";
+
+//     inventory.forEach((invObj, index) => {
+//         const tr = document.createElement("tr");
+//         tr.innerHTML = `<td>${invObj.name}</td><td>${invObj.stock}</td> <td>${invObj.status}</td><td><img src="${invObj.invtimg}" width="50"/></td>
+//              <td><button onclick="update(${index})">Update</button><button onclick="removeProduct()">Delete</button></td>`;
+
+//         inventoryList.appendChild(tr);
+//     });
+// }
+
+// function update(index) {
+//     const newstock = prompt("Enter a new stock value", inventory[index].stock);
+//     const nwStockValue = parseInt(newstock, 10);
+
+//     // Correct condition to check for valid stock
+//     if (!isNaN(nwStockValue) && nwStockValue >= 0) {
+//         inventory[index].stock = nwStockValue;
+//         inventory[index].status = nwStockValue > 0 ? "In Stock" : "Out of Stock";
+//         updateInventoryList();
+//     } else {
+//         alert("Enter a valid stock amount.");
+//     }
+// }
+
+// // function removeProduct(index) {
+// //     if (confirm("Are you sure you want to remove this product?")) {
+// //         inventory.splice(index, 1); // Remove product from the array
+// //         updateInventoryList(); // Update the display
+// //     }
+// // }
+
+// function removeProduct(index){
+//     if(confirm("Are you Sure to delete this Product")){
+//         inventory.splice(index,1);
+//         updateInventoryList();
+//     }
+// }
+
+    </script>
+</body>
+</html>
